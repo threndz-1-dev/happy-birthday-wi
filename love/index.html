@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Feliz Cumpleaños, Mi Amor 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Parisienne&family=Merienda&family=Flamenco&display=swap" rel="stylesheet">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-family: 'Parisienne', cursive;
+    color: white;
+    text-align: center;
+    background: linear-gradient(-45deg, #ffb6c1, #ff69b4, #ff1493, #ff85a1);
+    background-size: 400% 400%;
+    animation: bgFlow 15s ease infinite;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+  }
+
+  @keyframes bgFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  h1 {
+    font-size: clamp(2em, 5vw, 3em);
+    margin-top: 5vh;
+    text-shadow: 0 0 15px rgba(255,255,255,0.9);
+  }
+
+  .photo {
+    margin: 2vh auto;
+    width: clamp(140px, 20vw, 180px);
+    height: clamp(140px, 20vw, 180px);
+    border-radius: 50%;
+    background-image: url('./love.jpg');
+    background-size: cover;
+    background-position: center;
+    border: 4px solid white;
+    box-shadow: 0 0 20px rgba(255,255,255,0.7);
+    animation: float 4s ease-in-out infinite;
+  }
+
+  #typewriter {
+    font-size: clamp(1em, 4vw, 1.5em);
+    min-height: 4em;
+    margin: 2vh 5%;
+    white-space: normal;
+    overflow-wrap: break-word;
+    border-right: 3px solid rgba(255,255,255,0.8);
+    text-shadow: 0 0 10px rgba(255,255,255,0.7);
+    max-width: 90vw;
+  }
+
+  .signature {
+    margin-top: 2vh;
+    font-family: 'Merienda', cursive;
+    font-style: italic;
+    font-size: clamp(1em, 3vw, 1.3em);
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+    text-shadow: 0 0 10px rgba(255,255,255,0.8);
+  }
+
+  .name {
+    background: linear-gradient(to right, #fff, #ffefba);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    font-weight: bold;
+  }
+
+  .hearts {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+    z-index: -1;
+  }
+
+  .heart {
+    position: absolute;
+    bottom: -10px;
+    color: rgba(255,255,255,0.8);
+    font-size: 24px;
+    animation: rise 8s linear infinite;
+  }
+
+  @keyframes float { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+  @keyframes rise {
+    0% {transform: translateY(0) scale(1); opacity: 1;}
+    100% {transform: translateY(-100vh) scale(2); opacity: 0;}
+  }
+
+  /* 💖 Overlay for music permission */
+  #overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    font-size: 2em;
+    font-family: 'Merienda', cursive;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    cursor: pointer;
+    backdrop-filter: blur(6px);
+    transition: opacity 1s ease-in-out;
+  }
+
+  #overlay.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+  <div id="overlay">💖 Tap to Begin 💖</div>
+
+  <audio id="bg-music" loop>
+    <source src="./guitar-ambient-339839.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="hearts" id="hearts"></div>
+
+  <h1>Feliz Cumpleaños, Mi Amor 💕</h1>
+  <div class="photo"></div>
+  <div id="typewriter"></div>
+  <div class="signature" id="signature">
+    — Con todo mi amor, <b class="name">Has 💫</b>
+  </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const overlay = document.getElementById('overlay');
+  const music = document.getElementById('bg-music');
+  const heartsContainer = document.getElementById('hearts');
+  const typewriter = document.getElementById('typewriter');
+  const signature = document.getElementById('signature');
+
+  overlay.addEventListener('click', () => {
+    music.volume = 0;
+    music.play().then(() => {
+      // 🎶 Smooth fade-in music
+      let vol = 0;
+      const fade = setInterval(() => {
+        if (vol < 1) {
+          vol += 0.05;
+          music.volume = vol;
+        } else clearInterval(fade);
+      }, 200);
+    });
+    overlay.classList.add('fade-out');
+    startAnimation();
+  });
+
+  // Floating hearts
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.textContent = '💖';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = (6 + Math.random() * 4) + 's';
+    heartsContainer.appendChild(heart);
+    setTimeout(() => heart.remove(), 8000);
+  }
+
+  function startAnimation() {
+    setInterval(createHeart, 400);
+    loopMessages();
+  }
+
+  // Typewriter messages
+  const messages = [
+    "Cada latido de mi corazón susurra tu nombre.",
+    "Eres la melodía de mi alma, la razón por la que sonrío.",
+    "En tu día especial, solo quiero que sepas que eres mi para siempre. 💖"
+  ];
+
+  async function typeMessage(message) {
+    for (let i = 0; i <= message.length; i++) {
+      typewriter.textContent = message.slice(0, i);
+      await new Promise(r => setTimeout(r, 80));
+    }
+    await new Promise(r => setTimeout(r, 2000));
+    for (let i = message.length; i >= 0; i--) {
+      typewriter.textContent = message.slice(0, i);
+      await new Promise(r => setTimeout(r, 40));
+    }
+    typewriter.textContent = "";
+    await new Promise(r => setTimeout(r, 500));
+  }
+
+  async function loopMessages() {
+    let firstCycle = true;
+    while (true) {
+      for (let msg of messages) {
+        await typeMessage(msg);
+      }
+      if (firstCycle) {
+        signature.style.opacity = 1;
+        firstCycle = false;
+      }
+    }
+  }
+});
+</script>
+</body>
+</html>
